@@ -13,12 +13,14 @@ import { MinioService } from './minio.service';
       provide: 'MINIO_CLIENT',
       useFactory: () => {
         return new Minio.Client({
-          endPoint: process.env.MINIO_HOST!,
+          endPoint:
+            process.env.MINIO_HOST! ||
+            'minio-mww0s0oos04o0gg8k0k4w04c.194.31.53.73.sslip.io',
           port: undefined,
           useSSL:
             (process.env.MINIO_USE_SSL ?? 'false').toLowerCase() === 'true',
-          accessKey: process.env.MINIO_ACCESS_KEY!,
-          secretKey: process.env.MINIO_SECRET_KEY!,
+          accessKey: process.env.MINIO_ACCESS_KEY! || 'IajceRafe9iMI55o',
+          secretKey: process.env.MINIO_SECRET_KEY! || 'GBExKraXCpQZQThmB2u7Ki1KrRncw6C8',
         });
       },
     },

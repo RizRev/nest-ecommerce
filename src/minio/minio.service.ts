@@ -6,7 +6,7 @@ import { Readable } from 'stream';
 @Injectable()
 export class MinioService {
   private readonly logger = new Logger(MinioService.name);
-  private readonly bucket = process.env.MINIO_BUCKET ?? 'products';
+  private readonly bucket = 'products';
 
   constructor(@Inject('MINIO_CLIENT') private readonly client: Minio.Client) {
     this.ensureBucket().catch((e) =>

@@ -21,11 +21,13 @@ import { FilesController } from './file/file.controller';
     TestModuleCliModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
+      host: process.env.DB_HOST || '194.31.53.73',
+      port: Number(process.env.DB_PORT || '5050'),
+      username: process.env.DB_USERNAME || 'ponyo',
+      password:
+        process.env.DB_PASSWORD ||
+        'hSE6tXXhJ6xomeeSdn4zFaaWOaqYjB8jCjzYaJZ31l9T0iWanoVW0vRt1VJxGDje',
+      database: process.env.DB_NAME || 'ecommerce',
       entities: [Product],
       synchronize: true, // dev only
       // Opsi pool untuk driver `pg`
