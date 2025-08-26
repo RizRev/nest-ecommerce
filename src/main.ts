@@ -5,12 +5,20 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: false });
+
+  app.enableCors({
+    origin: true,
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    exposedHeaders: ['Content-Disposition'],
+  });
+
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true,             // drop fields tak dikenal
-      transform: true,             // ubah tipe sesuai DTO (string -> number, dll)
-      forbidNonWhitelisted: true,  // tolak fields tak dikenal
+      whitelist: true,
+      transform: true,
+      forbidNonWhitelisted: true,
     }),
   );
   app.useGlobalInterceptors(new HttpLoggingInterceptor());
@@ -22,6 +30,6 @@ async function bootstrap() {
 
   const doc = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, doc);
-  await app.listen(3000);
+  await app.listen(3000, '0.0.0.0');
 }
 bootstrap();
