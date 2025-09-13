@@ -54,7 +54,15 @@ export class ProductsService {
     return saved;
   }
 
-  async update(id: number, data: Partial<Product>) {
+  async update(id: number, data: Partial<Product>, file?: Express.Multer.File) {
+    if (file?.buffer) {
+      const key = `products/${Date.now()}-${file.originalname}`;
+      await this.minio.upload(key, file.buffer, file.mimetype);
+      data.attachmentKey = key;
+      data.attachmentMime = file.mimetype;
+      data.attachmentSize = file.size;
+      data.attachmentOriginalName = file.originalname;
+    }
     await this.productRepo.update(id, data);
     return this.findOne(id);
   }
